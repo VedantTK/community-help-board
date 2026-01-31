@@ -1,12 +1,45 @@
 /* =========================================
-   COMMUNITY HELP BOARD - JAVASCRIPT
-   Complete Functionality with Landing Page
+   COMMUNITY HELP BOARD - FIREBASE VERSION
+   Complete Functionality with Firestore
    ========================================= */
+
+// ===== FIREBASE IMPORTS =====
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    updateDoc, 
+    deleteDoc, 
+    doc, 
+    query, 
+    orderBy,
+    onSnapshot,
+    serverTimestamp,
+    Timestamp
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+// ===== FIREBASE CONFIGURATION =====
+const firebaseConfig = {
+    apiKey: "AIzaSyCwlr-V5WVzr00h",
+    authDomain: "community-help-board-9ef57.firebaseapp.com",
+    projectId: "community-help-board-9ef57",
+    storageBucket: "community-help-board-9ef57.firebasestorage.app",
+    messagingSenderId: "759961271211",
+    appId: "1:759961271211:web:",
+    measurementId: "G-C4YYW5TQ0X"
+};
+
+// ===== INITIALIZE FIREBASE =====
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ===== GLOBAL STATE =====
 let posts = [];
 let currentFilter = 'all';
 let deletePostId = null;
+let unsubscribe = null; // For real-time listener
 
 // ===== CATEGORIES =====
 const CATEGORIES = ['Medical', 'Education', 'Jobs', 'Emergency', 'Events', 'Volunteers', 'Other'];
@@ -18,12 +51,139 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    loadPosts();
+    // Setup real-time listener for posts
+    setupRealtimeListener();
+    
     setupEventListeners();
-    renderPosts();
-    updateCategoryCounts();
-    updateHeroStats();
-    toggleEmptyState();
+    
+    // Show loading state
+    showLoading();
+}
+
+// ===== FIREBASE FIRESTORE FUNCTIONS =====
+
+/**
+ * Setup real-time listener for posts collection
+ * This will automatically update the UI when posts change
+ */
+function setupRealtimeListener() {
+    const postsRef = collection(db, 'posts');
+    const q = query(postsRef, orderBy('createdAt', 'desc'));
+    
+    // Listen for real-time updates
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        posts = [];
+        
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            posts.push({
+                id: doc.id,
+                ...data,
+                // Convert Firestore Timestamp to ISO string for compatibility
+                date: data.createdAt ? data.createdAt.toDate().toISOString() : new Date().toISOString()
+            });
+        });
+        
+        // Update UI
+        renderPosts();
+        updateCategoryCounts();
+        updateHeroStats();
+        toggleEmptyState();
+        hideLoading();
+    }, (error) => {
+        console.error('Error listening to posts:', error);
+        showToast('Error loading posts. Please refresh the page.', 'error');
+        hideLoading();
+    });
+}
+
+/**
+ * Add a new post to Firestore
+ */
+async function createPostInFirestore(postData) {
+    try {
+        const postsRef = collection(db, 'posts');
+        
+        const docData = {
+            title: postData.title,
+            description: postData.description,
+            category: postData.category,
+            contactName: postData.contactName,
+            contactInfo: postData.contactInfo,
+            location: postData.location || '',
+            createdAt: serverTimestamp(),
+            resolved: false
+        };
+        
+        await addDoc(postsRef, docData);
+        
+        showToast('Post created successfully!', 'success');
+        closeModal();
+    } catch (error) {
+        console.error('Error creating post:', error);
+        showToast('Error creating post. Please try again.', 'error');
+    }
+}
+
+/**
+ * Update a post in Firestore
+ */
+async function updatePostInFirestore(postId, postData) {
+    try {
+        const postRef = doc(db, 'posts', postId);
+        
+        await updateDoc(postRef, {
+            title: postData.title,
+            description: postData.description,
+            category: postData.category,
+            contactName: postData.contactName,
+            contactInfo: postData.contactInfo,
+            location: postData.location || '',
+            updatedAt: serverTimestamp()
+        });
+        
+        showToast('Post updated successfully!', 'success');
+        closeModal();
+    } catch (error) {
+        console.error('Error updating post:', error);
+        showToast('Error updating post. Please try again.', 'error');
+    }
+}
+
+/**
+ * Toggle resolved status in Firestore
+ */
+async function toggleResolvedInFirestore(postId, currentStatus) {
+    try {
+        const postRef = doc(db, 'posts', postId);
+        
+        await updateDoc(postRef, {
+            resolved: !currentStatus,
+            updatedAt: serverTimestamp()
+        });
+        
+        const message = !currentStatus ? 'Post marked as resolved!' : 'Post marked as unresolved!';
+        showToast(message, 'success');
+    } catch (error) {
+        console.error('Error updating post:', error);
+        showToast('Error updating post. Please try again.', 'error');
+    }
+}
+
+/**
+ * Delete a post from Firestore
+ */
+async function deletePostFromFirestore(postId) {
+    try {
+        const postRef = doc(db, 'posts', postId);
+        await deleteDoc(postRef);
+        
+        showToast('Post deleted successfully!', 'success');
+        closeDeleteModal();
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        showToast('Error deleting post. Please try again.', 'error');
+    }
 }
 
 // ===== NAVIGATION =====
@@ -74,23 +234,9 @@ function setupNavigation() {
     });
 }
 
-// ===== LOCALSTORAGE =====
-function loadPosts() {
-    const storedPosts = localStorage.getItem('communityHelpPosts');
-    if (storedPosts) {
-        posts = JSON.parse(storedPosts);
-    } else {
-        posts = [];
-    }
-}
-
-function savePosts() {
-    localStorage.setItem('communityHelpPosts', JSON.stringify(posts));
-}
-
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-    document.getElementById('createPostBtn').addEventListener('click', openModal);
+    document.getElementById('createPostBtn').addEventListener('click', () => openModal());
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', handleFilter);
@@ -188,73 +334,32 @@ function handleFormSubmit(e) {
     };
     
     if (editId) {
-        updatePost(editId, postData);
+        updatePostInFirestore(editId, postData);
     } else {
-        createPost(postData);
-    }
-}
-
-function createPost(postData) {
-    const newPost = {
-        id: generateId(),
-        ...postData,
-        date: new Date().toISOString(),
-        resolved: false
-    };
-    
-    posts.unshift(newPost);
-    savePosts();
-    renderPosts();
-    updateCategoryCounts();
-    updateHeroStats();
-    closeModal();
-    
-    showToast('Post created successfully!', 'success');
-}
-
-function updatePost(postId, postData) {
-    const index = posts.findIndex(p => p.id === postId);
-    if (index !== -1) {
-        posts[index] = {
-            ...posts[index],
-            ...postData,
-            updatedDate: new Date().toISOString()
-        };
-        savePosts();
-        renderPosts();
-        updateCategoryCounts();
-        closeModal();
-        
-        showToast('Post updated successfully!', 'success');
+        createPostInFirestore(postData);
     }
 }
 
 function confirmDelete() {
     if (deletePostId) {
-        posts = posts.filter(p => p.id !== deletePostId);
-        savePosts();
-        renderPosts();
-        updateCategoryCounts();
-        updateHeroStats();
-        closeDeleteModal();
-        toggleEmptyState();
-        
-        showToast('Post deleted successfully!', 'success');
+        deletePostFromFirestore(deletePostId);
     }
 }
 
-function toggleResolved(postId) {
+// Make toggleResolved available globally for onclick handlers
+window.toggleResolved = function(postId) {
     const post = posts.find(p => p.id === postId);
     if (post) {
-        post.resolved = !post.resolved;
-        savePosts();
-        renderPosts();
-        updateHeroStats();
-        
-        const message = post.resolved ? 'Post marked as resolved!' : 'Post marked as unresolved!';
-        showToast(message, 'success');
+        toggleResolvedInFirestore(postId, post.resolved);
     }
-}
+};
+
+// Make openModal and openDeleteModal available globally
+window.openModal = openModal;
+window.openDeleteModal = openDeleteModal;
+window.closeModal = closeModal;
+window.closeDeleteModal = closeDeleteModal;
+window.confirmDelete = confirmDelete;
 
 // ===== RENDERING =====
 function renderPosts() {
@@ -272,7 +377,7 @@ function renderPosts() {
             post.title.toLowerCase().includes(searchTerm) ||
             post.description.toLowerCase().includes(searchTerm) ||
             post.category.toLowerCase().includes(searchTerm) ||
-            post.location.toLowerCase().includes(searchTerm)
+            (post.location && post.location.toLowerCase().includes(searchTerm))
         );
     }
     
@@ -432,10 +537,6 @@ function animateCounter(element, target) {
 }
 
 // ===== UTILITY FUNCTIONS =====
-function generateId() {
-    return 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
-
 function formatDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
@@ -511,74 +612,18 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// ===== SAMPLE DATA (OPTIONAL) =====
-function addSamplePosts() {
-    if (posts.length === 0) {
-        const samplePosts = [
-            {
-                id: generateId(),
-                title: 'Need Blood Donation - AB+ Urgent',
-                category: 'Emergency',
-                description: 'My brother urgently needs AB+ blood for surgery tomorrow morning. Please contact if you can help.',
-                contactName: 'Rajesh Kumar',
-                contactInfo: '+91 98765 43210',
-                location: 'City Hospital, Mumbai',
-                date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-                resolved: false
-            },
-            {
-                id: generateId(),
-                title: 'Free Tuition Classes for Village Children',
-                category: 'Education',
-                description: 'Starting free weekend classes for students from grades 1-10. Need volunteers who can teach Math and Science.',
-                contactName: 'Priya Sharma',
-                contactInfo: 'priya.education@gmail.com',
-                location: 'Green Valley School',
-                date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-                resolved: false
-            },
-            {
-                id: generateId(),
-                title: 'Hiring Part-Time Data Entry Operators',
-                category: 'Jobs',
-                description: 'Our NGO is looking for 5 part-time data entry operators. No experience required, training will be provided.',
-                contactName: 'Community Skills Center',
-                contactInfo: '+91 87654 32109',
-                location: 'Pune',
-                date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                resolved: false
-            },
-            {
-                id: generateId(),
-                title: 'Community Health Camp - Free Checkup',
-                category: 'Events',
-                description: 'Free health checkup camp on Sunday. Includes blood pressure, sugar testing, and doctor consultation.',
-                contactName: 'Dr. Amit Patel',
-                contactInfo: '+91 99887 76655',
-                location: 'Community Hall, Nashik',
-                date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-                resolved: false
-            },
-            {
-                id: generateId(),
-                title: 'Volunteers Needed for Tree Plantation Drive',
-                category: 'Volunteers',
-                description: 'Join us next Saturday for a tree plantation drive. We aim to plant 1000 trees. Refreshments will be provided.',
-                contactName: 'Green Earth NGO',
-                contactInfo: 'contact@greenearth.org',
-                location: 'Riverfront Park',
-                date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-                resolved: false
-            }
-        ];
-        
-        posts = samplePosts;
-        savePosts();
-        renderPosts();
-        updateCategoryCounts();
-        updateHeroStats();
-    }
+function showLoading() {
+    const container = document.getElementById('postsContainer');
+    container.innerHTML = '<div style="text-align: center; padding: 60px; color: #7f8c8d;"><i class="fas fa-spinner fa-spin" style="font-size: 3rem; margin-bottom: 20px;"></i><p style="font-size: 1.2rem;">Loading posts...</p></div>';
 }
 
-// Uncomment to enable sample data on first load
-// addSamplePosts();
+function hideLoading() {
+    // Loading will be replaced by actual posts when renderPosts() is called
+}
+
+// ===== CLEANUP ON PAGE UNLOAD =====
+window.addEventListener('beforeunload', () => {
+    if (unsubscribe) {
+        unsubscribe();
+    }
+});
