@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Community Help Board - Connecting communities through shared support and collaboration">
+    <title>Community Help Board - Together We Make a Difference</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-hands-helping"></i>
+                <span>Community Help Board</span>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#communities" class="nav-link">Communities</a></li>
+                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="#board" class="nav-link">Help Board</a></li>
+                <li><a href="#board" class="btn-nav">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Empowering Communities
+                    <span class="highlight">Together</span>
+                </h1>
+                <p class="hero-description">
+                    A platform where communities connect, share, and support each other. 
+                    Post help requests, find volunteers, and make a real difference in people's lives.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#board" class="btn btn-primary btn-large">
+                        <i class="fas fa-plus-circle"></i>
+                        Create Help Post
+                    </a>
+                    <a href="#about" class="btn btn-secondary btn-large">
+                        <i class="fas fa-play-circle"></i>
+                        Learn More
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="totalPosts">0</div>
+                        <div class="stat-label">Active Posts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="resolvedPosts">0</div>
+                        <div class="stat-label">Resolved</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600&h=700&fit=crop" alt="Community helping hands">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What We Do</h2>
+                <p class="section-subtitle">Bridging gaps and building stronger communities through collaboration</p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Medical Support</h3>
+                    <p>Connect patients with blood donors, medical supplies, and healthcare volunteers during emergencies.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Education Access</h3>
+                    <p>Share educational resources, find tutors, and announce scholarship opportunities for students.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Job Opportunities</h3>
+                    <p>Post job openings, skill training programs, and connect job seekers with local employers.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Emergency Response</h3>
+                    <p>Get immediate help during crises with highlighted urgent posts for quick community response.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Community Events</h3>
+                    <p>Announce health camps, workshops, awareness programs, and cultural events in your area.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Volunteer Network</h3>
+                    <p>Find volunteers for social causes, environmental drives, and community development projects.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Communities Section -->
+    <section class="communities-section" id="communities">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Serving Every Community</h2>
+                <p class="section-subtitle">From villages to cities, we bring communities together</p>
+            </div>
+            
+            <div class="communities-grid">
+                <!-- NGOs -->
+                <div class="community-card">
+                    <div class="community-image">
+                        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=400&fit=crop" alt="NGOs helping communities">
+                        <div class="community-overlay">
+                            <i class="fas fa-hands-heart"></i>
+                        </div>
+                    </div>
+                    <div class="community-content">
+                        <h3>NGOs & Social Organizations</h3>
+                        <p>Coordinate relief efforts, announce volunteering opportunities, and reach beneficiaries effectively. Manage donation drives and track community impact.</p>
+                        <ul class="community-features">
+                            <li><i class="fas fa-check"></i> Volunteer recruitment</li>
+                            <li><i class="fas fa-check"></i> Donation campaigns</li>
+                            <li><i class="fas fa-check"></i> Event coordination</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Villages -->
+                <div class="community-card">
+                    <div class="community-image">
+                        <img src="https://images.unsplash.com/photo-1516981442399-a91139e20ff8?w=600&h=400&fit=crop" alt="Rural villages">
+                        <div class="community-overlay">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                    <div class="community-content">
+                        <h3>Villages & Rural Communities</h3>
+                        <p>Share agricultural knowledge, request farming equipment, announce panchayat meetings, and get help during natural calamities or crop emergencies.</p>
+                        <ul class="community-features">
+                            <li><i class="fas fa-check"></i> Agricultural support</li>
+                            <li><i class="fas fa-check"></i> Resource sharing</li>
+                            <li><i class="fas fa-check"></i> Emergency alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Schools -->
+                <div class="community-card">
+                    <div class="community-image">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop" alt="School children learning">
+                        <div class="community-overlay">
+                            <i class="fas fa-school"></i>
+                        </div>
+                    </div>
+                    <div class="community-content">
+                        <h3>Schools & Educational Institutes</h3>
+                        <p>Exchange textbooks, find study groups, share scholarship information, and connect students with mentors. Announce academic events and competitions.</p>
+                        <ul class="community-features">
+                            <li><i class="fas fa-check"></i> Study material exchange</li>
+                            <li><i class="fas fa-check"></i> Tutoring network</li>
+                            <li><i class="fas fa-check"></i> Scholarship alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Colleges -->
+                <div class="community-card">
+                    <div class="community-image">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="College students">
+                        <div class="community-overlay">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                    <div class="community-content">
+                        <h3>Colleges & Universities</h3>
+                        <p>Find project partners, share internship opportunities, organize fests and technical events, and build professional networks within campus.</p>
+                        <ul class="community-features">
+                            <li><i class="fas fa-check"></i> Internship posting</li>
+                            <li><i class="fas fa-check"></i> Project collaboration</li>
+                            <li><i class="fas fa-check"></i> Campus events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple, fast, and effective - helping made easy</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Create a Post</h3>
+                    <p>Fill out a simple form with your help request details, category, and contact information.</p>
+                </div>
+                
+                <div class="step-connector"></div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Browse & Search</h3>
+                    <p>Community members can filter by category, search posts, and find requests they can help with.</p>
+                </div>
+                
+                <div class="step-connector"></div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Connect & Help</h3>
+                    <p>Reach out using contact details provided, offer your support, and make a difference.</p>
+                </div>
+                
+                <div class="step-connector"></div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Mark as Resolved</h3>
+                    <p>Once help is received, mark the post as resolved to keep the board organized and updated.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Make a Difference?</h2>
+                <p>Join thousands of community members helping each other every day</p>
+                <a href="#board" class="btn btn-primary btn-large">
+                    <i class="fas fa-arrow-down"></i>
+                    Go to Help Board
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Board Section -->
+    <section class="board-section" id="board">
+        <div class="container">
+            <div class="board-header">
+                <h2 class="section-title">Community Help Board</h2>
+                <p class="section-subtitle">Browse active requests or create a new post</p>
+            </div>
+            
+            <!-- Action Bar -->
+            <div class="action-bar" id="actionBar">
+                <div class="action-bar-top">
+                    <button class="btn btn-primary" id="createPostBtn">
+                        <i class="fas fa-plus"></i>
+                        Create Post
+                    </button>
+                    
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Search posts..."
+                            aria-label="Search help posts"
+                        >
+                    </div>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="filter-btn active" data-category="all">
+                        All <span class="count" id="count-all">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Medical">
+                        <i class="fas fa-heartbeat"></i> Medical <span class="count" id="count-Medical">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Education">
+                        <i class="fas fa-graduation-cap"></i> Education <span class="count" id="count-Education">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Jobs">
+                        <i class="fas fa-briefcase"></i> Jobs <span class="count" id="count-Jobs">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Emergency">
+                        <i class="fas fa-exclamation-triangle"></i> Emergency <span class="count" id="count-Emergency">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Events">
+                        <i class="fas fa-calendar-alt"></i> Events <span class="count" id="count-Events">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Volunteers">
+                        <i class="fas fa-users"></i> Volunteers <span class="count" id="count-Volunteers">0</span>
+                    </button>
+                    <button class="filter-btn" data-category="Other">
+                        <i class="fas fa-ellipsis-h"></i> Other <span class="count" id="count-Other">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Posts Grid -->
+            <div id="postsContainer" class="posts-grid"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h3>No Posts Yet</h3>
+                <p>Be the first to create a help post in your community!</p>
+                <button class="btn btn-primary" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Create First Post
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Create/Edit Post Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create Help Post</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="postForm" class="post-form">
+                <div class="form-group">
+                    <label for="postTitle">Title <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="postTitle" 
+                        class="form-input" 
+                        placeholder="Brief description of help needed"
+                        required
+                        maxlength="100"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="postCategory">Category <span class="required">*</span></label>
+                    <select id="postCategory" class="form-input" required>
+                        <option value="">Select a category</option>
+                        <option value="Medical">Medical Help</option>
+                        <option value="Education">Education Support</option>
+                        <option value="Jobs">Job Referrals</option>
+                        <option value="Emergency">Emergency Needs</option>
+                        <option value="Events">Event Announcements</option>
+                        <option value="Volunteers">Volunteer Requests</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="postDescription">Description <span class="required">*</span></label>
+                    <textarea 
+                        id="postDescription" 
+                        class="form-input" 
+                        rows="5"
+                        placeholder="Provide detailed information..."
+                        required
+                        maxlength="500"
+                    ></textarea>
+                    <small class="char-count"><span id="charCount">0</span>/500</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactName">Contact Name <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="contactName" 
+                        class="form-input" 
+                        placeholder="Your name or organization"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="contactInfo">Phone / Email <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="contactInfo" 
+                        class="form-input" 
+                        placeholder="Contact details"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location (Optional)</label>
+                    <input 
+                        type="text" 
+                        id="location" 
+                        class="form-input" 
+                        placeholder="City, village, or area"
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Post
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <button class="close-btn" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3><i class="fas fa-hands-helping"></i> Community Help Board</h3>
+                    <p>Building stronger communities through shared support, collaboration, and collective action.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#communities">Communities</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#board">Help Board</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#board">Medical Help</a></li>
+                        <li><a href="#board">Education</a></li>
+                        <li><a href="#board">Job Opportunities</a></li>
+                        <li><a href="#board">Emergency</a></li>
+                        <li><a href="#board">Volunteers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="contact-info-footer">
+                        <li><i class="fas fa-envelope"></i> support@communityhelp.org</li>
+                        <li><i class="fas fa-phone"></i> +91 1800-HELP-NOW</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Serving communities nationwide</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Community Help Board. Made with <i class="fas fa-heart"></i> for communities everywhere.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
